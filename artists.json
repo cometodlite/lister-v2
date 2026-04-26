@@ -1,0 +1,60 @@
+{
+  "brand": {
+    "name": "LISTER",
+    "tagline": "Listen to Lister artists — clean, fast, fan-first."
+  },
+  "featured": {
+    "artist": "Lunalite (feat. 강하월)",
+    "title": "Lunatic illusion",
+    "src": "music/Lunatic illusion.mp3",
+    "duration": "1:52",
+    "cover": "assets/lunatic_mythtic_cover.webp",
+    "album": "LUNATIC MYTHTIC"
+  },
+  "artists": [
+    {
+      "id": "lunalite",
+      "name": "Lunalite (feat. 강하월)",
+      "genre": "Electronic · Dream Pop",
+      "bio": "빛과 몽환 사이를 유영하는 사운드. 앨범 「LUNATIC MYTHTIC」 수록.",
+      "avatar": "assets/lunatic_mythtic_cover.webp",
+      "tracks": [
+        {
+          "title": "Lunatic illusion",
+          "src": "music/Lunatic illusion.mp3",
+          "duration": "1:52",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "LUNATIC MYTHTIC"
+        },
+        {
+          "title": "Lunatic River",
+          "src": "music/Lunatic River.mp3",
+          "duration": "2:14",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "LUNATIC MYTHTIC"
+        },
+        {
+          "title": "LUNATIC SILENCE",
+          "src": "music/LUNATIC SILENCE.mp3",
+          "duration": "2:47",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "LUNATIC MYTHTIC"
+        },
+        {
+          "title": "Sunny Dance",
+          "src": "music/Sunny Dance.mp3",
+          "duration": "2:49",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "LUNATIC MYTHTIC"
+        },
+        {
+          "title": "Plenty Time",
+          "src": "music/Plenty Time.mp3",
+          "duration": "1:47",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "LUNATIC MYTHTIC"
+        }
+      ]
+    }
+  ]
+}
