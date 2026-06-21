@@ -53,6 +53,118 @@
           "duration": "1:47",
           "cover": "assets/lunatic_mythtic_cover.webp",
           "album": "LUNATIC MYTHTIC"
+        },
+        {
+          "title": "ALICE IS… Cut Your String",
+          "src": "music/alice-is-cut-your-string.mp3",
+          "duration": "2:53",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "ALICE IS…",
+          "composer": "Lunalite, Alice(Lunatic Family)"
+        },
+        {
+          "title": "ALICE IS… Miss Master",
+          "src": "music/alice-is-miss-master.mp3",
+          "duration": "1:56",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "ALICE IS…",
+          "composer": "Lunalite, Alice(Lunatic Family)"
+        },
+        {
+          "title": "ALICE IS… Want Knife",
+          "src": "music/alice-is-want-knife.mp3",
+          "duration": "1:59",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "ALICE IS…",
+          "composer": "Lunalite, Alice(Lunatic Family)"
+        },
+        {
+          "title": "ALICE IS… Want You",
+          "src": "music/alice-is-want-you.mp3",
+          "duration": "3:10",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "ALICE IS…",
+          "composer": "Lunalite, Alice(Lunatic Family)"
+        },
+        {
+          "title": "InvasionSpace",
+          "src": "music/invasion-space.mp3",
+          "duration": "0:51",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "Endless Moon",
+          "composer": "Lunalite, Hibi, 강하월(Lunatic Family)"
+        },
+        {
+          "title": "Apollo Zerospace",
+          "src": "music/apollo-zerospace.mp3",
+          "duration": "0:55",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "Endless Moon",
+          "composer": "Lunalite, Hibi, 강하월(Lunatic Family)"
+        },
+        {
+          "title": "Penalty",
+          "src": "music/penalty.mp3",
+          "duration": "0:59",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "Endless Moon",
+          "composer": "Lunalite, Hibi, 강하월(Lunatic Family)"
+        },
+        {
+          "title": "IGNORE SIGNAL",
+          "src": "music/ignore-signal.mp3",
+          "duration": "0:46",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "Endless Moon",
+          "composer": "Lunalite, Hibi, 강하월(Lunatic Family)"
+        },
+        {
+          "title": "Chaotic Redsound",
+          "src": "music/chaotic-redsound.mp3",
+          "duration": "2:49",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "Endless Moon",
+          "composer": "Lunalite, Hibi, 강하월(Lunatic Family)"
+        },
+        {
+          "title": "Galaxy Station",
+          "src": "music/galaxy-station.wav",
+          "duration": "2:25",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "Endless Moon",
+          "composer": "Lunalite, Hibi, 강하월(Lunatic Family)"
+        },
+        {
+          "title": "SpaceForest",
+          "src": "music/space-forest.wav",
+          "duration": "2:45",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "Endless Moon",
+          "composer": "Lunalite, Hibi, 강하월(Lunatic Family)"
+        },
+        {
+          "title": "Luna-Rabbit’s Solo",
+          "src": "music/luna-rabbits-solo.mp3",
+          "duration": "6:38",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "Endless Moon",
+          "composer": "Lunalite, Hibi, 강하월(Lunatic Family)"
+        },
+        {
+          "title": "WHAT THE ‘COMET’??",
+          "src": "music/what-the-comet.mp3",
+          "duration": "2:14",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "Endless Moon",
+          "composer": "Lunalite, Hibi, 강하월(Lunatic Family)"
+        },
+        {
+          "title": "☆Star’s Retire",
+          "src": "music/stars-retire.mp3",
+          "duration": "2:31",
+          "cover": "assets/lunatic_mythtic_cover.webp",
+          "album": "Endless Moon",
+          "composer": "Lunalite, Hibi, 강하월(Lunatic Family)"
         }
       ]
     }
