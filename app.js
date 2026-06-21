@@ -64,6 +64,12 @@ function setBtnIcon(btn, name){ if(!btn) return; btn.innerHTML = ICON[name] + '<
   let userSeeking = false;
 
   const STORAGE_THEME = 'lister_theme_v2';
+  const LIBRARY_URL = 'artists.json';
+  const REFRESH_MIN_INTERVAL = 30 * 1000;
+  const REFRESH_POLL_INTERVAL = 5 * 60 * 1000;
+  let lastLibrarySignature = '';
+  let lastRefreshAt = 0;
+  let refreshInFlight = null;
 
   function fmt(t){
     if (!isFinite(t) || t < 0) return '0:00';
@@ -89,6 +95,47 @@ function setBtnIcon(btn, name){ if(!btn) return; btn.innerHTML = ICON[name] + '<
   }
 
   function normalize(s){ return (s || '').toLowerCase().trim(); }
+
+  function toTrack(t, artistName){
+    return {
+      title: t.title,
+      artist: artistName,
+      src: t.src,
+      duration: t.duration || '',
+      cover: t.cover || '',
+      album: t.album || '',
+      composer: t.composer || ''
+    };
+  }
+
+  function signatureFor(data){
+    const artists = (data?.artists || []).map(a => ({
+      id: a.id,
+      name: a.name,
+      tracks: (a.tracks || []).map(t => [
+        t.title,
+        t.src,
+        t.duration || '',
+        t.cover || '',
+        t.album || '',
+        t.composer || ''
+      ])
+    }));
+    return JSON.stringify({ featured: data?.featured || null, artists });
+  }
+
+  async function fetchLibrary(){
+    const url = `${LIBRARY_URL}?v=${Date.now()}`;
+    const res = await fetch(url, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      }
+    });
+    if (!res.ok) throw new Error(`Library fetch failed: ${res.status}`);
+    return res.json();
+  }
 
   function pushQueue(track, playNow=false){
     queue.push(track);
@@ -190,13 +237,7 @@ function setBtnIcon(btn, name){ if(!btn) return; btn.innerHTML = ICON[name] + '<
       const card = document.createElement('article');
       card.className = 'card';
       const tracksHtml = (a.tracks || []).map(t => {
-        const trackObj = {
-          title: t.title,
-          artist: a.name,
-          src: t.src,
-          duration: t.duration || '',
-          cover: t.cover || ''
-        };
+        const trackObj = toTrack(t, a.name);
         const payload = encodeURIComponent(JSON.stringify(trackObj));
         return `
           <button class="track" data-payload="${payload}" data-src="${escapeHtml(trackObj.src)}" data-title="${escapeHtml(trackObj.title)}" data-artist="${escapeHtml(trackObj.artist)}">
@@ -247,13 +288,7 @@ function setBtnIcon(btn, name){ if(!btn) return; btn.innerHTML = ICON[name] + '<
     flatTracks = [];
     const artists = library?.artists || [];
     artists.forEach(a => (a.tracks || []).forEach(t => {
-      flatTracks.push({
-        title: t.title,
-        artist: a.name,
-        src: t.src,
-        duration: t.duration || '',
-        cover: t.cover || ''
-      });
+      flatTracks.push(toTrack(t, a.name));
     }));
   }
 
@@ -264,10 +299,12 @@ function setBtnIcon(btn, name){ if(!btn) return; btn.innerHTML = ICON[name] + '<
     featuredArtist.textContent = f.artist || '—';
     featuredCover.src = f.cover || 'assets/cover-aurora.svg';
 
-    btnFeatured?.addEventListener('click', () => {
-      pushQueue({ title: f.title, artist: f.artist, src: f.src, duration: f.duration || '', cover: f.cover || '' }, true);
-    });
-    btnFeaturedPlay?.addEventListener('click', toggle);
+    if (btnFeatured){
+      btnFeatured.onclick = () => {
+        pushQueue({ title: f.title, artist: f.artist, src: f.src, duration: f.duration || '', cover: f.cover || '', album: f.album || '', composer: f.composer || '' }, true);
+      };
+    }
+    if (btnFeaturedPlay) btnFeaturedPlay.onclick = toggle;
   }
 
   function setStats(){
@@ -397,26 +434,63 @@ function setBtnIcon(btn, name){ if(!btn) return; btn.innerHTML = ICON[name] + '<
     });
   }
 
+  async function refreshLibrary({ prefillFeatured=false, force=false } = {}){
+    const now = Date.now();
+    if (!force && now - lastRefreshAt < REFRESH_MIN_INTERVAL) return false;
+    if (refreshInFlight) return refreshInFlight;
+    lastRefreshAt = now;
+
+    refreshInFlight = fetchLibrary().then(nextLibrary => {
+      const nextSignature = signatureFor(nextLibrary);
+      if (library && nextSignature === lastLibrarySignature) return false;
+
+      library = nextLibrary;
+      lastLibrarySignature = nextSignature;
+      buildFlatTracks();
+      renderArtists();
+      setFeatured();
+      setStats();
+
+      // prefill queue with featured (not autoplay)
+      if (prefillFeatured && library?.featured && !queue.length){
+        queue = [{ title: library.featured.title, artist: library.featured.artist, src: library.featured.src, duration: library.featured.duration || '', cover: library.featured.cover || '', album: library.featured.album || '', composer: library.featured.composer || '' }];
+        idx = 0;
+        renderQueue();
+        setNow(queue[0]);
+      } else {
+        renderQueue();
+        if (queue[idx]) highlightPlaying(queue[idx]);
+      }
+
+      if (q?.value) runSearch(q.value);
+      return true;
+    }).finally(() => {
+      refreshInFlight = null;
+    });
+
+    return refreshInFlight;
+  }
+
+  function bindLibraryRefresh(){
+    const refresh = () => {
+      refreshLibrary().catch((err) => console.warn('Library refresh failed', err));
+    };
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') refresh();
+    });
+    window.addEventListener('focus', refresh);
+    window.addEventListener('pageshow', refresh);
+    window.setInterval(refresh, REFRESH_POLL_INTERVAL);
+  }
+
   async function init(){
     applySavedTheme();
     bindPlayer();
     bindUX();
+    bindLibraryRefresh();
 
-    const res = await fetch('artists.json', { cache: 'no-store' });
-    library = await res.json();
-
-    buildFlatTracks();
-    renderArtists();
-    setFeatured();
-    setStats();
-
-    // prefill queue with featured (not autoplay)
-    if (library?.featured){
-      queue = [{ title: library.featured.title, artist: library.featured.artist, src: library.featured.src, duration: library.featured.duration || '', cover: library.featured.cover || '' }];
-      idx = 0;
-      renderQueue();
-      setNow(queue[0]);
-    }
+    await refreshLibrary({ prefillFeatured: true, force: true });
   }
 
   // --- Mobile bottom UI overlap fix (iOS Safari / iOS in-app browsers / Android Chrome)

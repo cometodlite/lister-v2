@@ -1,0 +1,23 @@
+{
+  "name": "Lister",
+  "short_name": "Lister",
+  "description": "Lister 소속 아티스트들의 노래를 듣는 웹사이트",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0d12",
+  "theme_color": "#0b0d12",
+  "icons": [
+    {
+      "src": "assets/lunatic_mythtic_cover.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
